@@ -51,7 +51,9 @@ export default {
       if (this.comments.length > this.commentLength) {
         const lastCommentIndex = this.comments.length - 1;
         const lastComment = this.comments[lastCommentIndex];
-        this.core.readComment(this.core.selected.id, lastComment.id);
+        if (this.core.userData.email !== lastComment.username_real) {
+          this.core.readComment(this.core.selected.id, lastComment.id);
+        }
         this.commentLength = this.comments.length;
         if (!this.core.UI.isReading) scrollIntoLastElement(this.core);
       }
