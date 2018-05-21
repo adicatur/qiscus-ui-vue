@@ -55,7 +55,7 @@ export const uploadFile = (e, core, toasted) => {
   return true;
 }
 
-export const updateProgress = (e, fileName, core) => {
+export const updateProgress = function (e, fileName, core) {
   if (e.lengthComputable) {
     const percentComplete = e.loaded / e.total;
     const fileObject = uploadedFiles(core)
@@ -63,7 +63,7 @@ export const updateProgress = (e, fileName, core) => {
     if (fileObject) fileObject.progress = Math.round(percentComplete * 100);
     // console.log('%s', fileObject.progress);
   } else {
-    console.log('unknown');
+    // console.log('unkown', ...arguments);
   }
 }
 
