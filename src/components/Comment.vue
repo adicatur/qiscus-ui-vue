@@ -25,10 +25,10 @@
           i(@click="replyHandler(comment)" class="reply-btn" :class="{'reply-btn--me': isMe}" v-if="!isDeleted && !isMe")
             icon(name="ic-reply")
 
-          //- more vertical button 
+          //- more vertical button
           i(class="qcw-comment__more" @click="menuMoreClicked(comment.id)" v-if="isMe && !isDeleted")
             icon(name="ic-more-horiz")
-            
+
           div(
             :key="`comment_${comment.id}`"
             ref="`more_${comment.id}`"
@@ -245,7 +245,7 @@ export default {
             .then(() => {
               this.$toasted.success('Message deleted');
             }, (err) => {
-              this.$toasted.error(`Failed deleting message: ${err}`);
+              this.$toasted.error(`Failed deleting message`);
             }),
         });
       }
