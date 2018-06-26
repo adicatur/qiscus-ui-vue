@@ -163,6 +163,12 @@ export default {
         height 100vh
         z-index 1
 
+  .qcw-main
+    width 100%
+    display flex
+    flex-direction column
+    position relative
+
   .qcw-window-toggle-btn
     cursor pointer
     flex: 0 0 32px;
