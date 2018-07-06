@@ -123,7 +123,6 @@
     width 100%
   .image-loader + .qcw-comment__content
     margin-top 12px
-    word-break break-all
 
   .loading-image-container
     display flex

@@ -7,14 +7,15 @@
 export default {
   name: 'QiscusTriggerButton',
   props: ['label', 'clickHandler', 'core'],
-  computed: {
-    buttonStyle: function buttonStyle() {
-      const style = {
-        background: this.core.UI.colors.widgetButtonBackgroundColor,
-        color: this.core.UI.colors.widgetButtonTextColor,
-      };
-      return style;
-    },
+  data() {
+    return {
+      buttonStyle: {},
+    };
+  },
+  mounted() {
+    this.buttonStyle = {
+      background: QiscusUI.colors.widgetButtonBackgroundColor,
+    };
   },
 };
 </script>
@@ -38,11 +39,13 @@ export default {
   @media screen and (max-width: 600px)
     position relative
     z-index 0
-
+  
   &:hover
     transform translateY(-3px)
     box-shadow 0 7px 16px rgba(46,46,46,.25)
-
+  
   .qcw-container.qcw-container--wide &
     display none
 </style>
+
+

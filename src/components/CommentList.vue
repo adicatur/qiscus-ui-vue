@@ -480,10 +480,6 @@ export default {
     max-width 210px
     align-items flex-end
     border-radius 8px
-
-    audio
-      min-width 250px
-      width 100%
     .comment--parent &
       margin-left 60px
       flex-wrap wrap
