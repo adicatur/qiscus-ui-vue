@@ -2,14 +2,15 @@
   div(class="qcw-message-info")
     div(class="qcw-message-info__header")
       span Message Info
-      span(@click="closeMessageInfo") &times;
+      span(@click="closeMessageInfo") 
+        icon(name="ic-close")
 
     div(class="qcw-message-info__comment")
       div(class="qcw-message-info__comment-text" v-html="data.comment.message")
       small(class="qcw-message-info__comment-time") {{ data.comment.time }}
 
     div(class="qcw-message-info__info")
-      strong.qcw-message-info__info-header
+      strong.qcw-message-info__info-header.read
         span Read By
         icon(name="ic-double-check")
 
@@ -19,9 +20,9 @@
           div(class="qcw-message-info__user-info")
             strong {{ r.user.username }}
             small {{ new Date(r.time).toLocaleString() }}
-      strong.qcw-message-info__info-header
+      strong.qcw-message-info__info-header.delivered
         span Delivered To
-        icon(name="ic-check")
+        icon(name="ic-double-check")
       ul
         li(v-for="d in delivered")
           img(class="qcw-message-info__user-avatar")
@@ -55,13 +56,14 @@ export default {
     this.core.userAdapter.getCommentReceiptStatus(this.data.comment.id)
       .then((res) => {
         res.results.delivered_to.forEach(d => this.delivered.push(d));
-        res.results.read_by.forEach(r => this.delivered.push(r));
+        res.results.read_by.forEach(r => this.read.push(r));
       });
   },
 };
 </script>
 
 <style lang="stylus">
+@import '../assets/stylus/_variables.styl'
 .qcw-message-info
   background #FFF
   position absolute
@@ -72,7 +74,8 @@ export default {
   z-index 999
   display flex
   flex-direction column
-  flex 1 auto
+  flex 1 0 320px
+  border-left 1px solid $lightGrey
   .qcw-container--wide &
     position relative
 
@@ -81,10 +84,13 @@ export default {
   justify-content space-between
   align-items center
   height 73px
-  padding 0 25px
+  padding 0 16px
   border-bottom 1px solid #e8e8e8
   color #777
   flex 0 auto
+  .qc-icon
+    width 14px
+    height 14px    
 
   & span:nth-child(2)
     cursor pointer
@@ -128,6 +134,7 @@ export default {
   overflow hidden
   overflow-y auto
   padding 25px
+  border-top 1px solid $lightGrey
 
   strong.qcw-message-info__info-header
     color #777
@@ -138,9 +145,13 @@ export default {
     display flex
     justify-content space-between
 
-    .qc-icon
-      width 16px
-
+    &.read
+      .qc-icon
+        width 22px
+        fill #94ca62
+    &.delivered
+      .qc-icon
+        width 22px
   ul
     list-style none
     margin 0

@@ -25,6 +25,7 @@
             :showAvatar="core.options.avatar"
             :currentMenuId="currentMenuId"
             @onChangeMenu="onChangeMenu"
+            @commentNotFound="loadMoreComment"
             ref="comment"
           )
         //- component for uploader progress
@@ -48,6 +49,9 @@ export default {
       commentLength: 0,
       currentMenuId: null,
       timeoutId: -1,
+      timesLoadingMore: 1,
+      maxTimesLoadingMore: 3,
+      lastCommentId: null,
     };
   },
   computed: {
@@ -62,7 +66,9 @@ export default {
         const lastComment = this.comments[lastCommentIndex];
         this.core.readComment(this.core.selected.id, lastComment.id);
         this.commentLength = this.comments.length;
-        if (!this.isReading) scrollIntoLastElement(this.core);
+      }
+      if (!this.isReading) {
+        scrollIntoLastElement(this.core);
       }
     }
   },
@@ -93,6 +99,27 @@ export default {
     },
     onDragging(status) {
       this.$emit('onDragging', status);
+    },
+    loadMoreComment(id) {
+      const self = this;
+      const currentCommentId = (self.lastCommentId) ? self.lastCommentId : self.comments[0].id;
+      if (self.timesLoadingMore >= self.maxTimesLoadingMore) return;
+      self.isLoadingMore = true;
+      self.core.loadMore(currentCommentId).then(async (response) => {
+        self.lastCommentId = response[0].id;
+        if (!response || response.length < 20) self.timesLoadingMore = self.maxTimesLoadingMore;
+        const element = document.getElementById(id);
+        if (!element) {
+          self.timesLoadingMore += 1;
+          const elementTop = document.getElementById(self.lastCommentId);
+          await elementTop.scrollIntoView({ block: 'end',  behaviour: 'smooth' });
+          await self.loadMoreComment(id);
+          return;
+        }
+        self.isLoadingMore = false;
+        self.timesLoadingMore = 1;
+        await element.scrollIntoView({ block: 'end',  behaviour: 'smooth' });
+      });
     },
   },
 };
@@ -411,7 +438,7 @@ export default {
         left auto
       .qcw-comment__time
         top 2px
-        left -58px
+        left -35px
       .qcw-comment__state
         left -20px
         svg.qc-icon
@@ -437,7 +464,7 @@ export default {
       ul
         top 25px
         left -175px
-  
+
   .failed-info
     text-align right
     margin-top -3px
@@ -478,6 +505,10 @@ export default {
     max-width 210px
     align-items flex-end
     border-radius 8px
+
+    audio
+      min-width 250px
+      width 100%
     .comment--parent &
       margin-left 60px
       flex-wrap wrap
@@ -542,9 +573,11 @@ export default {
       word-wrap break-word
       white-space pre-line
   .qcw-comment__content
+    iframe
+      width 100%
+      height auto
+      display block
     img.emojione
       display inline-block
       vertical-align middle
 </style>
-
-

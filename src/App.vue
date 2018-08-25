@@ -2,7 +2,7 @@
   .qcw-container(:class="{'qcw-container--open': chatWindowStatus, 'qcw-container--wide': core.mode=='wide'}")
     chat-window(v-if="core.isInit" :core="core" :toggleWindowStatus="toggleWindowStatus")
     div(v-if="!core.isInit" class="qcw-connecting-indicator") Connecting to chat server ...
-    qcw-trigger(:clickHandler="toggleWindowStatus" :core="core" :label="widgetButtonText")
+    qcw-trigger(:clickHandler="toggleWindowStatus" :core="core" :label="widgetButtonText" :icon="widgetButtonIcon")
 </template>
 
 <script>
@@ -19,6 +19,7 @@ export default {
   },
   computed: {
     widgetButtonText: () => QiscusCore.UI.widgetButtonText,
+    widgetButtonIcon: () => QiscusCore.UI.widgetButtonIcon,
   },
   data() {
     return {
@@ -42,6 +43,7 @@ export default {
 
     const colorConfig = {
       widgetButtonBackgroundColor: colors.green,
+      widgetButtonTextColor: colors.white,
 
       headerBackgroundColor: colors.white,
       headerTitleColor: colors.darkGrey,
@@ -75,15 +77,18 @@ export default {
       colors: colorConfig,
       config: uiConfig,
       widgetButtonText: 'Talk to Us',
+      widgetButtonIcon: null,
       isReading: false,
       isMessageInfoActive: false,
       messageInfoData: null,
+      autoExpandWidget: false,
       chatTarget(target) {
         return self.core.chatTarget(target).then((res) => {
-          if (!self.chatWindowStatus) self.toggleWindowStatus();
+          if (!self.chatWindowStatus && self.core.UI.autoExpandWidget) self.toggleWindowStatus();
           window.setTimeout(() => scrollIntoLastElement(self.core), 0);
           focusMessageForm();
           self.core.UI.isReading = false;
+          QiscusUI.isMessageInfoActive = false;
           return Promise.resolve(res);
         }, (err) => {
           self.$toasted.error(`Error opening chatroom: ${err}`);
@@ -92,10 +97,11 @@ export default {
       },
       chatGroup(id) {
         return self.core.chatGroup(id).then((res) => {
-          if (!self.chatWindowStatus) self.toggleWindowStatus();
+          if (!self.chatWindowStatus && self.core.UI.autoExpandWidget) self.toggleWindowStatus();
           window.setTimeout(() => scrollIntoLastElement(self.core), 0);
           self.core.UI.isReading = false;
           focusMessageForm();
+          QiscusUI.isMessageInfoActive = false;
           return Promise.resolve(res);
         }, err => Promise.reject(err));
       },
