@@ -265,12 +265,13 @@ QiscusSDK.core.UI.chatGroup('room-id')
 ### Participant Management
 
 In some cases, you may need to add additional participants into your room chat
-or even removing any participant. Currently, Qiscus Chat SDK only allow you	or even removing any participant. This two methods you can use to managing participant.
+or even removing any participant. Currently, Qiscus Chat SDK allow you or even removing any participant. This two methods you can use to managing participant.
 
 ```
-QiscusSDK.core.addParticipantsToGroup(roomId, [emails])
-security reason. You can learn how to use Server API here.	QiscusSDK.core.removeParticipantsFromGroup(roomId, [emails])
+QiscusSDK.core.addParticipantsToGroup(roomId, [userId1, userId2, userId3])
 
+QiscusSDK.core.removeParticipantsFromGroup(roomId, [userId1, userId2, userId3])
+```
 
 ## Enable Desktop Notification
 
