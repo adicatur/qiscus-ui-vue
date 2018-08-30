@@ -267,9 +267,11 @@ QiscusSDK.core.UI.chatGroup('room-id')
 In some cases, you may need to add additional participants into your room chat
 or even removing any participant. Currently, Qiscus Chat SDK allow you or even removing any participant. This two methods you can use to managing participant.
 
-```
+```javascript
 QiscusSDK.core.addParticipantsToGroup(roomId, [userId1, userId2, userId3])
+```
 
+```javascript
 QiscusSDK.core.removeParticipantsFromGroup(roomId, [userId1, userId2, userId3])
 ```
 
