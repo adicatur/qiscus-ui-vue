@@ -265,11 +265,13 @@ QiscusSDK.core.UI.chatGroup('room-id')
 ### Participant Management
 
 In some cases, you may need to add additional participants into your room chat
-or even removing any participant. Currently, Qiscus Chat SDK only allow you
-to manage your users server to server. You cannot do it on you client app side.
-Hence, we recommend to invite and remove user out of specific room through
-our [SERVER API](https://www.qiscus.com/docs/restapi) for simplicity and
-security reason. You can learn how to use Server API here.
+or even removing any participant. Currently, Qiscus Chat SDK only allow you	or even removing any participant. This two methods you can use to managing participant.
+
+```
+QiscusSDK.core.addParticipantsToGroup(roomId, [emails])
+security reason. You can learn how to use Server API here.	QiscusSDK.core.removeParticipantsFromGroup(roomId, [emails])
+
+
 ## Enable Desktop Notification
 
 By default, desktop notification feature is available on your web browser. To get notification, you need to enable browser notification on the browser pop-up.
