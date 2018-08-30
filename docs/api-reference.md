@@ -325,6 +325,17 @@ qiscus.selected // room info
 qiscus.selected.comments // comments list
 ```
 
+### Add participant in a room
+
+```javascript
+QiscusSDK.core.addParticipantsToGroup(roomId, [userId1, userId2, userId3])	
+```
+
+### Remove participant in a room
+```javascript
+QiscusSDK.core.removeParticipantsFromGroup(roomId, [userId1, userId2, userId3])
+```
+
 ## Statuses
 
 ### Publish Start Typing
